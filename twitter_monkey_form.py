@@ -1,7 +1,4 @@
-import tweepy
-from twitter import *
 from TwitterSearch import *
-import twitter
 import re
 import requests
 import sys
@@ -9,9 +6,7 @@ import urlparse
 import logging
 import BeautifulSoup
 from CREDS import *
-import urllib3.contrib.pyopenssl
 from typeformizer import convert_survey 
-urllib3.contrib.pyopenssl.inject_into_urllib3()
 logging.basicConfig(level=logging.WARN)
 
 
