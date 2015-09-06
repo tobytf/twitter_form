@@ -6,7 +6,7 @@ import urlparse
 import logging
 import BeautifulSoup
 from CREDS import *
-from typeformizer import *
+from convert_monkey import monkey_to_typeform
 logging.basicConfig(level=logging.WARN)
 
 
@@ -15,13 +15,14 @@ find_url = re.compile('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9
 monkey_check = re.compile('http[s]?://www.surveymonkey.com')
 google_forms_check = re.compile('http[s]?://docs.google.com/forms')
 forms_links = [
-        {'function':'convert_monkey', 'group':0 ,'re':monkey_check},
-        {'function':'convert_google', 'group':0, 're':google_forms_check}
+        {'class':'monkey_to_typeform', 'group':0 ,'re':monkey_check},
+        {'class':'google_forms_to_typeform', 'group':0, 're':google_forms_check}
 
 ]
 
 tso = TwitterSearchOrder()
-tso.set_keywords(['docs.google.com/forms'])
+#tso.set_keywords(['docs.google.com/forms'])
+tso.set_keywords(['surveymonkey'])
 ts = TwitterSearch(
      consumer_key = TWITTER_CONSUMER_KEY,
      consumer_secret = TWITTER_CONSUMER_SECRET,
@@ -50,10 +51,11 @@ def main():
 	    for link_re in forms_links:
 		match = re.search(link_re['re'],actual_url)
 		if match:
-                    logging.warn("converting form ... %s %s" % (actual_url,link_re['function']))
-		    new_form = getattr(sys.modules[__name__], link_re['function'])(r.text)
-                    typeform = new_form.submit()
-		    logging.warn("generated typeform ... %s " % typeform)
+                    logging.warn("converting form ... %s %s" % (actual_url,link_re['class']))
+		    converter = getattr(sys.modules[__name__], link_re['class'])(r.text)
+                    typeform = converter.to_typeform()
+                    typeform_url = typeform.submit()
+		    logging.warn("generated typeform ... %s " % typeform_url)
 		    break
 
             '''
