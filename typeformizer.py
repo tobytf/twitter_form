@@ -11,9 +11,8 @@ import typeformio
 
 survey_hash = []
 
-def convert_survey(survey_url):
-    req = requests.get(survey_url)
-    soup = BeautifulSoup(req.text,'html5lib')
+def convert_monkey(raw_html):
+    soup = BeautifulSoup(raw_html,'html5lib')
     form = typeformio.form('test form','https://1.com')
 
     questions = soup.find_all(class_='question-row')
@@ -67,7 +66,9 @@ if __name__ == '__main__':
     parser.add_argument('-s','--submit_flag', action='store_true')
     args = parser.parse_args()
 
-    form = convert_survey(args.url)
+    import requests
+    r = requests.get(args.url)
+    form = convert_monkey(r.text)
     logging.warn("Form to convert %s" % (args.url))
     print form.to_json()
     if args.submit_flag:
