@@ -33,66 +33,99 @@ class form:
                 if link['rel'] == 'form_render':
                     return link['href']
         else:
-            return 'None'
+            return r.json() 
 
 class field:
-    def __init__(self,question=''):
+    def __init__(self,question_text=''):
         self.type = None 
-        self.question = question
+        self.question = question_text
+        self.description = ''
+        self.required = False
+        self.tags = []
+        self.options = None
+
+    def set_question_text(self,question_text):
+        self.question = question_text
+
+    def set_description(self,description):
+        self.description = description
+
+    def set_required(self,required):
+        self.required = required
+
+    def set_tags(self,tag):
+        self.tags.append(tag)
 
     def to_json(self):
-        return json.dumps({'question':self.question,'type':self.type})
+        return json.dumps(self.to_dict())
 
     def to_dict(self):
-        return {'question':self.question,'type':self.type}
+        if self.options is None:
+	    return {'question':self.question,
+                    'type':self.type,
+                    'description':self.description,
+		    'required':self.required,
+		    'tags':self.tags}
+        else:
+	    return {'question':self.question,
+                    'type':self.type,
+                    'description':self.description,
+		    'required':self.required,
+		    'tags':self.tags,
+                    'choices':self.options}
+            
 
 class multiple_choice_field(field):
-    def __init__(self,question):
+    def __init__(self,question_text=''):
         self.type = 'multiple_choice'
-        self.question = question
+        self.question = question_text
+        self.description = ''
+        self.required = False
+        self.tags = []
         self.options = []
+        self.allow_multiple_choice_options = False
 
     def add_option(self,option):
         self.options.append({'label':option})
-
-    def to_json(self):
-        return json.dumps({'question':self.question,
-                           'type':self.type,
-                           'choices':self.options})
-
-    def to_dict(self):
-        return {'question':self.question,
-                           'type':self.type,
-                           'choices':self.options}
 
 class dropdown_field(field):
-    def __init__(self,question):
+    def __init__(self,question_text=''):
         self.type = 'dropdown'
-        self.question = question
+        self.question = question_text
+        self.description = ''
+        self.required = False
+        self.tags = []
         self.options = []
 
     def add_option(self,option):
         self.options.append({'label':option})
 
-    def to_json(self):
-        return json.dumps({'question':self.question,
-                           'type':self.type,
-                           'choices':self.options})
-    def to_dict(self):
-        return {'question':self.question,
-                           'type':self.type,
-                           'choices':self.options}
-
 class short_text_field(field):
-    def __init__(self,question):
+    def __init__(self,question_text=''):
         self.type = 'short_text'
-        self.question = question
+        self.question = question_text
+        self.description = ''
+        self.required = False
+        self.tags = []
+        self.options = None
 
 class long_text_field(field):
-    def __init__(self,question):
+    def __init__(self,question_text=''):
         self.type = 'long_text'
-        self.question = question
+        self.question = question_text
+        self.description = ''
+        self.required = False
+        self.tags = []
+        self.options = None
 
+class opinion_scale_field(field):
+    def __init__(self,question_text=''):
+        self.type = 'opinion_scale'
+        self.question = question_text
+        self.description = ''
+        self.required = False
+        self.tags = []
+        self.options = None
 
 if __name__ == '__main__':
     test_form = form('test','https://1@2.com')

@@ -1,4 +1,4 @@
-from TwitterSearch import TwitterSearchOrder, TwitterSearch
+from TwitterSearch import TwitterSearchOrder, TwitterSearch, TwitterSearchException
 from CREDS import *
 
 ts = TwitterSearch(
@@ -10,14 +10,7 @@ ts = TwitterSearch(
 
 try:
     tso = TwitterSearchOrder()
-    tso.set_keywords(['surveymonkey'])
-
-    ts = TwitterSearch(
-                      consumer_key = CONSUMER_KEY,
-                      consumer_secret = CONSUMER_SECRET,
-                      access_token = ACCESS_TOKEN,
-                      access_token_secret = ACCESS_TOKEN_SECRET,
-                      )
+    tso.set_keywords(['surveymonkey','docs.google.com/forms'], or_operator=True)
 
     for tweet in ts.search_tweets_iterable(tso):
         print('@%s tweeted: %s' % (tweet['user']['screen_name'], tweet['text']))
