@@ -1,3 +1,6 @@
 CREDS.py
 *.pyc
+*.log
+*.png
+
 
