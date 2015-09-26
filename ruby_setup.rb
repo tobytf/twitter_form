@@ -1,5 +1,6 @@
 require 'watir-webdriver'
 require 'watir-webdriver/wait'
+require 'active_support/all'
 require 'page-object'
 require 'page-object/page_factory'
 require 'headless'
@@ -8,7 +9,6 @@ require 'json'
 require 'configuration'
 require 'rubygems'
 require 'yaml'
-require 'date'
 
 #World(PageObject::PageFactory)
 
