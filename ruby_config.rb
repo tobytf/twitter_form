@@ -1,5 +1,5 @@
 Configuration.for('urls'){
-      base_url 'https://admin.typeform.com/'
+      base_url 'https://admin.typeform.dev/'
 }
 
 Configuration.for('user'){

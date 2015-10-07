@@ -20,7 +20,10 @@ fields.each do |field|
   on_page(BuildPage).add_field_with_default_text(field)
 end
 
-
+@name = 'test'
+@email =  'test@test.com'
+on_page(BuildPage).click_save_account
+on_page(BuildPage).do_sign_up(@name, @email)
 
 # close down
 $browser.quit
