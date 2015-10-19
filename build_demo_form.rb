@@ -1,6 +1,8 @@
 # app.rb
+require 'rubygems'
 require 'sinatra'
 require 'json'
+require_relative 'test_ruby'
 
 class HelloWorldApp < Sinatra::Base
   get '/' do
@@ -9,16 +11,15 @@ class HelloWorldApp < Sinatra::Base
 
   post '/typeformize' do 
     jdata = JSON.parse(request.body.read)
-    puts jdata
-    "http://hello.hmtml"
+    
+    typeformizer = Typeverter.new
+    
+    jdata['fields'].each do |field|
+       method = 'add_' + field['type']
+       typeformizer.method(str).call(field)
+    end
+    content_type :json
+    { :url => 'http://hello.html'}.to_json
   end
 
-  get '/example.json' do
-      content_type :json
-      { :key1 => 'value1', :key2 => 'value2' }.to_json
-  end
-
-  get '/:greeting/?:name?' do
-      "#{params[:greeting]}, #{params[:name] ? params[:name] : 'world'}!"
-  end
 end

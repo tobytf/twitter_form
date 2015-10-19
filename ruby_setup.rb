@@ -7,7 +7,6 @@ require 'headless'
 require 'rest-client'
 require 'json'
 require 'configuration'
-require 'rubygems'
 require 'yaml'
 
 #World(PageObject::PageFactory)

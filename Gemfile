@@ -8,4 +8,5 @@ gem 'rest-client'
 gem 'json'
 gem 'configuration'
 gem 'activesupport'
+gem 'sinatra'
 
