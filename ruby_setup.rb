@@ -8,8 +8,12 @@ require 'rest-client'
 require 'json'
 require 'configuration'
 require 'yaml'
+require 'rspec'
+require 'rspec/expectations'
 
 #World(PageObject::PageFactory)
+
+include RSpec::Matchers
 
 Configuration.load 'ruby_config'
 

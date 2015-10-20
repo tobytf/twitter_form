@@ -15,6 +15,22 @@ class Typeverter
         on_page(WorkspacePage).create_form_from_scratch(@form)
     end
 
+    def add_field_statement(field)
+        on_page(BuildPage).add_field('Statement')
+        on_page(BuildPage).fill_statement_field(field['question'])
+        on_page(BuildPage).save_field_and_wait_for_popup_closed
+    end
+
+    def add_field_multiple_choice(field)
+        choices ||= []
+        field['choices'].each do |choice|
+            choices << choice['label']
+        end
+        on_page(BuildPage).add_field('Multiple choice')
+        on_page(BuildPage).fill_multiple_choice_field(field['question'],choices)
+        on_page(BuildPage).save_field_and_wait_for_popup_closed
+    end
+
     def add_short_text(field)
         puts field
     end

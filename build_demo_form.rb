@@ -15,8 +15,8 @@ class HelloWorldApp < Sinatra::Base
     typeformizer = Typeverter.new
     
     jdata['fields'].each do |field|
-       method = 'add_' + field['type']
-       typeformizer.method(str).call(field)
+       field_method = 'add_field_' + field['type']
+       typeformizer.method(field_method).call(field)
     end
     content_type :json
     { :url => 'http://hello.html'}.to_json
