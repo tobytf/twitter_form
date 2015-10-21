@@ -18,6 +18,8 @@ class HelloWorldApp < Sinatra::Base
        field_method = 'add_field_' + field['type']
        typeformizer.method(field_method).call(field)
     end
+    
+    typeformizer.save_form
     content_type :json
     { :url => 'http://hello.html'}.to_json
   end

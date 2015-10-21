@@ -31,20 +31,24 @@ class Typeverter
         on_page(BuildPage).save_field_and_wait_for_popup_closed
     end
 
-    def add_short_text(field)
-        puts field
+    def add_field_rating(field)
+        on_page(BuildPage).add_field('Rating')
+        on_page(BuildPage).fill_rating_field(field['question'])
+        on_page(BuildPage).save_field_and_wait_for_popup_closed
     end
-# create fields
-#fields = ['Short text', 'Email']
-#fields.each do |field|
-#  on_page(BuildPage).add_field_with_default_text(field)
-#end
+
+    def add_field_opinion_scale(field)
+        on_page(BuildPage).add_field('Opinion scale')
+        on_page(BuildPage).fill_opinion_scale_field(field['question'])
+        on_page(BuildPage).save_field_and_wait_for_popup_closed
+    end
 
     def save_form
         @name = 'test'
         @email =  'test@test.com'
         on_page(BuildPage).click_save_account
         on_page(BuildPage).do_sign_up(@name, @email)
+        on_page(BuildPage).go_to_distribute_panel
 
         # close down
         $browser.quit
